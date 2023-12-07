@@ -1,25 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Weather, { queryClient } from "./components/Weather";
+import Todo from "./components/Todo";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+        <div className="w-full h-[100vh] flex flex-col justify-center items-center bg-gray-700 text-white text-center">
+          <Routes>
+            <Route path="/" Component={Todo} />
+            <Route path="/weather" Component={Weather} />
+          </Routes>
+        </div>
+    </QueryClientProvider>
+      </BrowserRouter>
   );
 }
 

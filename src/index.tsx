@@ -1,16 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { TodoContextProvider } from "./context/TodoContext";
+import { MantineProvider, createTheme } from "@mantine/core";
+
+const theme = createTheme({
+  fontFamily: "Montserrat, sans-serif",
+  defaultRadius: "md",
+});
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <MantineProvider theme={theme}>
+    <TodoContextProvider>
+      <App />
+    </TodoContextProvider>
+  </MantineProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
