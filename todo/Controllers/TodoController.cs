@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Todo.Models;
 using Todo.Data;
+using Microsoft.EntityFrameworkCore;
+using Azure;
 
 namespace Todo.Controllers;
 
@@ -18,10 +20,21 @@ public class TodoController : Controller
     // GET controller
     [HttpGet]
     [Route("get")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var todos = _db.Todos.ToList();
-        return Ok(todos);
+        // get all data
+        var allData = await _db.Todos.Include(x => x.Category).Select(x => new
+        {
+            TodoId = x.Id,
+            TodoTitle = x.Title,
+            Description = x.Description,
+            TodoStatus = x.TodoStatus,
+            isCompleted = x.isCompleted,
+            CreatedDate = x.CreatedDate,
+            CategoryName = x.Category == null ? null : x.Category.CategoryName,
+            CategoryId = x.CategoryId,
+        }).ToListAsync();
+        return Json(allData);
     }
 
     // get single todo
@@ -40,7 +53,7 @@ public class TodoController : Controller
     // POST controller (create)
     [HttpPost]
     [Route("create")]
-    public IActionResult CreateTodo(TodoModel todo)
+    public async Task<IActionResult> CreateTodo(TodoModel todo)
     {
         // check if todo is null
         if (todo.Title == null || todo.Description == null)
@@ -51,15 +64,44 @@ public class TodoController : Controller
         // try catch
         try
         {
-            var insertdata = new TodoModel();
-            insertdata.Title = todo.Title;
-            insertdata.Description = todo.Description;
-            insertdata.CreatedDate = DateTime.Now;
-            insertdata.isCompleted = todo.isCompleted;
-            insertdata.TodoStatus = todo.TodoStatus;
-            _db.Todos.Add(insertdata);
+            // var insertdata = new TodoModel();
+            // insertdata.Title = todo.Title;
+            // insertdata.Description = todo.Description;
+            // insertdata.CreatedDate = DateTime.Now;
+            // insertdata.isCompleted = todo.isCompleted;
+            // insertdata.TodoStatus = todo.TodoStatus;
+            // insertdata.CategoryId = todo.CategoryId;
+            _db.Todos.Add(todo);
             _db.SaveChanges();
-            return Ok(insertdata);
+            var existingData = await _db.Todos
+                .Where(x => x.Id == todo.Id).Include(x => x.Category)
+                .Select(x => new
+                {
+                    TodoId = x.Id,
+                    TodoName = x.Title,
+                    CategoryName = x.Category == null ? null : x.Category.CategoryName, // Assuming there's a Name property in the Category entity
+                    Description = x.Description,
+                    TodoStatus = x.TodoStatus,
+                    isCompleted = x.isCompleted,
+                    CreatedDate = x.CreatedDate
+                    // Add other properties you want to select here
+                })
+                .FirstOrDefaultAsync();
+            return Json(existingData);
+
+            // // category data load(entity)
+            // _db.Entry(insertdata).Reference(t => t.Category).Load();
+
+            // string? categoryName = null;
+
+            // Console.WriteLine(insertdata.Category);
+            // if (insertdata.Category != null)
+            // {
+            //     // get category name
+            //     categoryName = insertdata.Category.CategoryName;
+            //     Console.WriteLine(categoryName);
+            // }
+            // return Ok(new { Todo = insertdata, CategoryName = categoryName });
 
         }
         catch (Exception e)
