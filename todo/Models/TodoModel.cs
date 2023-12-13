@@ -1,3 +1,5 @@
+using Category.Models;
+
 namespace Todo.Models;
 
 public enum Status
@@ -17,4 +19,7 @@ public class TodoModel
     public bool isCompleted { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
+
+    public int CategoryId { get; set; }
+    public CategoryModel? Category { get; set; }
 }
