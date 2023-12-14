@@ -1,0 +1,7 @@
+.TodoBox {
+    display: flex;
+    justify-content: space-around;
+    width: 600px;
+    margin: 20px 0;
+    /* width: 100%; */
+}
