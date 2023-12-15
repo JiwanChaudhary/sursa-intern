@@ -2,6 +2,7 @@ import { Button } from "@mantine/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { deleteTodo } from "../lib/data";
+import { useNavigate } from "react-router-dom";
 
 type ActionButtonProps = {
   btnTitle: string;
@@ -11,6 +12,7 @@ type ActionButtonProps = {
 };
 
 const ActionButton = ({ props }: { props: ActionButtonProps }) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
@@ -25,7 +27,7 @@ const ActionButton = ({ props }: { props: ActionButtonProps }) => {
 
   // handleEdit
   const handleEdit = (id: number) => {
-    console.log("edit ", id);
+    navigate(`/update-todo/${id}`);
   };
 
   return (

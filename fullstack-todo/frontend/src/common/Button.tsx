@@ -10,7 +10,11 @@ type CommonButtonProps = {
 const CommonButton = ({ props }: { props: CommonButtonProps }) => {
   return (
     <>
-      <Link to={"/create-todo"}>
+      <Link
+        to={`${
+          props.btnTitle === "Create Todo" ? "/create-todo" : "/update-todo"
+        }`}
+      >
         <Button>{props.btnTitle}</Button>
       </Link>
     </>

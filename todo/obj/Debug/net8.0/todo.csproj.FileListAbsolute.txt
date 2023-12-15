@@ -76,3 +76,4 @@ C:\sursa\todo\obj\Debug\net8.0\todo.csproj.CopyComplete
 C:\sursa\todo\bin\Debug\net8.0\frontend\package-lock.json
 C:\sursa\todo\bin\Debug\net8.0\frontend\package.json
 C:\sursa\todo\bin\Debug\net8.0\frontend\public\manifest.json
+C:\sursa\todo\obj\Debug\net8.0\todo.sourcelink.json

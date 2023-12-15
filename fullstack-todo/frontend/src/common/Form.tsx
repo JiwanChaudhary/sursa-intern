@@ -4,13 +4,16 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { useTodoContext } from "../context/TodoContext";
 import { createTodo, statusState } from "../lib/data";
 import GetCategory from "../components/GetCategory";
+import { useNavigate } from "react-router-dom";
 import {
   QueryClient,
   QueryClientProvider,
   useMutation,
 } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const Form = () => {
+  const navigate = useNavigate();
   const queryClient = new QueryClient();
   const { newTodo, setNewTodo, setTodoStatus, todoStatus, categoryStatus } =
     useTodoContext();
@@ -27,6 +30,9 @@ const Form = () => {
     mutationFn: createTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["create-new-todo"] });
+      toast.success("Todo Created Successfully");
+      setNewTodo({ title: "", description: "" });
+      navigate("/");
     },
   });
 

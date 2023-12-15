@@ -40,14 +40,16 @@ public class TodoController : Controller
     // get single todo
     [HttpGet]
     [Route("get/{id}")]
-    public IActionResult SingleTodo(int id)
+    public async Task<IActionResult> SingleTodo(int id)
     {
-        var todo = _db.Todos.Find(id);
-        if (todo == null)
+        var singleTodo = await _db.Todos.Include(x => x.Category).Where(x => x.Id == id).Select(x => new
         {
-            return NotFound();
-        }
-        return Ok(todo);
+            todoTitle = x.Title,
+            description = x.Description,
+            todoStatus = x.TodoStatus,
+            categoryName = x.Category == null ? null : x.Category.CategoryName
+        }).ToListAsync();
+        return Json(singleTodo);
     }
 
     // POST controller (create)
@@ -64,13 +66,6 @@ public class TodoController : Controller
         // try catch
         try
         {
-            // var insertdata = new TodoModel();
-            // insertdata.Title = todo.Title;
-            // insertdata.Description = todo.Description;
-            // insertdata.CreatedDate = DateTime.Now;
-            // insertdata.isCompleted = todo.isCompleted;
-            // insertdata.TodoStatus = todo.TodoStatus;
-            // insertdata.CategoryId = todo.CategoryId;
             _db.Todos.Add(todo);
             _db.SaveChanges();
             var existingData = await _db.Todos
@@ -137,7 +132,7 @@ public class TodoController : Controller
     [HttpPut]
     [Route("update/{id}")]
 
-    public IActionResult Update(int id, [FromBody] TodoModel updatedTodo)
+    public async Task<IActionResult> Update(int id, [FromBody] TodoModel updatedTodo)
     {
         // get todo ID
         var getTodoId = _db.Todos.Find(id);
@@ -154,14 +149,24 @@ public class TodoController : Controller
             getTodoId.Title = updatedTodo.Title;
             getTodoId.Description = updatedTodo.Description;
             getTodoId.UpdatedDate = DateTime.Now;
-            getTodoId.isCompleted = updatedTodo.isCompleted;
+            getTodoId.TodoStatus = updatedTodo.TodoStatus;
 
 
-            // save
+            //     // save
             _db.SaveChanges();
 
-            // return updated Todo
+            //     // return updated Todo
             return Ok(getTodoId);
+
+            // var updatedData = await _db.Todos.Where(x => x.Id == updatedTodo.Id).Select(x => new
+            // {
+            //     newTitle = x.Title,
+            //     newDescription = x.Description,
+            //     todoStatus = x.TodoStatus,
+            // }).ToListAsync();
+
+            // return Json(updatedData);
+
         }
         catch (Exception e)
         {

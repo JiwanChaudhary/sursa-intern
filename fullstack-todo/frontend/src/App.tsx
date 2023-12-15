@@ -5,6 +5,7 @@ import TodoContextProvider from "./context/TodoContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Form from "./common/Form";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import EditTodo from "./components/EditTodo";
 
 function App() {
   const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" Component={Todos} />
               <Route path="/create-todo" Component={Form} />
+              <Route path="/update-todo/:todoId" Component={EditTodo} />
             </Routes>
           </QueryClientProvider>
         </TodoContextProvider>

@@ -26,6 +26,10 @@ type TodoContextProps = {
       description: string;
     }>
   >;
+
+  editTodo: TodoItem[];
+  setEditTodo: React.Dispatch<React.SetStateAction<TodoItem[]>>;
+
   todoStatus: number;
   setTodoStatus: React.Dispatch<React.SetStateAction<number>>;
   categories: CategoryItem[];
@@ -43,6 +47,8 @@ const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
     title: "",
     description: "",
   });
+
+  const [editTodo, setEditTodo] = useState<Array<TodoItem>>([]);
   const [todoStatus, setTodoStatus] = useState(1);
   const [categories, setCategories] = useState<Array<CategoryItem>>([]);
   const [categoryStatus, setCategoryStatus] = useState(1);
@@ -60,6 +66,8 @@ const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
         setCategories,
         categoryStatus,
         setCategoryStatus,
+        editTodo,
+        setEditTodo,
       }}
     >
       {children}

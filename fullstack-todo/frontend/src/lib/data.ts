@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 type createNewTodoProps = {
   title: string;
@@ -12,6 +13,17 @@ export const getAllTodos = async () => {
   try {
     const res = await axios.get(`http://localhost:5252/api/todo/get`);
     const data = res.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSingleTodo = async (todoId: number) => {
+  try {
+    const res = await axios.get(`http://localhost:5252/api/todo/get/${todoId}`);
+    const data = res.data;
+
     return data;
   } catch (error) {
     console.log(error);
@@ -34,6 +46,7 @@ export const createTodo = async (createNewTodo: createNewTodoProps) => {
 export const deleteTodo = async (id: number) => {
   try {
     await axios.delete(`http://localhost:5252/api/todo/delete/${id}`);
+    toast.success("Item deleted successfully!");
     window.location.reload();
   } catch (error) {
     console.log(error);
