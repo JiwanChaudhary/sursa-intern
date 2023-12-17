@@ -34,8 +34,10 @@ type TodoContextProps = {
   setTodoStatus: React.Dispatch<React.SetStateAction<number>>;
   categories: CategoryItem[];
   setCategories: React.Dispatch<React.SetStateAction<CategoryItem[]>>;
-  categoryStatus: number;
-  setCategoryStatus: React.Dispatch<React.SetStateAction<number>>;
+  categoryStatus: number | undefined;
+  setCategoryStatus: React.Dispatch<React.SetStateAction<number | undefined>>;
+  newCategory: string;
+  setNewCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 
 // create context
@@ -51,7 +53,8 @@ const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [editTodo, setEditTodo] = useState<Array<TodoItem>>([]);
   const [todoStatus, setTodoStatus] = useState(1);
   const [categories, setCategories] = useState<Array<CategoryItem>>([]);
-  const [categoryStatus, setCategoryStatus] = useState(1);
+  const [categoryStatus, setCategoryStatus] = useState<number | undefined>();
+  const [newCategory, setNewCategory] = useState("");
 
   return (
     <TodoContext.Provider
@@ -68,6 +71,8 @@ const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
         setCategoryStatus,
         editTodo,
         setEditTodo,
+        newCategory,
+        setNewCategory,
       }}
     >
       {children}

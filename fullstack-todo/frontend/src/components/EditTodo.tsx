@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { Box, Button, Input, Text } from "@mantine/core";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getSingleTodo, statusState } from "../lib/data";
 import { useTodoContext } from "../context/TodoContext";
-import { IconChevronDown } from "@tabler/icons-react";
 import EditTodoForm from "./EditTodoForm";
 import axios from "axios";
 

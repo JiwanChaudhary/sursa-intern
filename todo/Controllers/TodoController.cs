@@ -74,36 +74,19 @@ public class TodoController : Controller
                 {
                     TodoId = x.Id,
                     TodoName = x.Title,
-                    CategoryName = x.Category == null ? null : x.Category.CategoryName, // Assuming there's a Name property in the Category entity
+                    CategoryName = x.Category == null ? null : x.Category.CategoryName,
                     Description = x.Description,
                     TodoStatus = x.TodoStatus,
-                    isCompleted = x.isCompleted,
-                    CreatedDate = x.CreatedDate
-                    // Add other properties you want to select here
                 })
                 .FirstOrDefaultAsync();
             return Json(existingData);
-
-            // // category data load(entity)
-            // _db.Entry(insertdata).Reference(t => t.Category).Load();
-
-            // string? categoryName = null;
-
-            // Console.WriteLine(insertdata.Category);
-            // if (insertdata.Category != null)
-            // {
-            //     // get category name
-            //     categoryName = insertdata.Category.CategoryName;
-            //     Console.WriteLine(categoryName);
-            // }
-            // return Ok(new { Todo = insertdata, CategoryName = categoryName });
 
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
 
-            return StatusCode(500, "Something went wrong");
+            return StatusCode(500, e);
         }
     }
 
@@ -132,7 +115,7 @@ public class TodoController : Controller
     [HttpPut]
     [Route("update/{id}")]
 
-    public async Task<IActionResult> Update(int id, [FromBody] TodoModel updatedTodo)
+    public IActionResult Update(int id, [FromBody] TodoModel updatedTodo)
     {
         // get todo ID
         var getTodoId = _db.Todos.Find(id);
@@ -152,10 +135,10 @@ public class TodoController : Controller
             getTodoId.TodoStatus = updatedTodo.TodoStatus;
 
 
-            //     // save
+            // save
             _db.SaveChanges();
 
-            //     // return updated Todo
+            // return updated Todo
             return Ok(getTodoId);
 
             // var updatedData = await _db.Todos.Where(x => x.Id == updatedTodo.Id).Select(x => new

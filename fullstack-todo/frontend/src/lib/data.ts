@@ -8,6 +8,10 @@ type createNewTodoProps = {
   categoryId: number;
 };
 
+type todoCategoryProps = {
+  categoryName: string;
+};
+
 // todos
 export const getAllTodos = async () => {
   try {
@@ -54,6 +58,22 @@ export const deleteTodo = async (id: number) => {
 };
 
 // categories
+export const createCategory = async (todoCategory: todoCategoryProps) => {
+  const res = await axios.post(
+    `http://localhost:5252/api/category/create-category`,
+    todoCategory
+  );
+  console.log(todoCategory);
+
+  const data = res.data;
+  return data;
+};
+
+export const deleteCategory = async (id: number) => {
+  await axios.delete(`http://localhost:5252/api/category/delete/${id}`);
+  window.location.reload();
+};
+
 export const getAllCategories = async () => {
   try {
     const res = await axios.get(`http://localhost:5252/api/category/get-all`);

@@ -62,6 +62,25 @@ public class CategoryController : Controller
             Console.WriteLine(e);
             return StatusCode(500, "Category could not be created for now, try again later!");
         }
+    }
+
+    // delete category
+    [HttpDelete]
+    [Route("delete/{id}")]
+
+    public IActionResult Delete(int id)
+    {
+        var getTodoId = _db.Categories.Find(id);
+
+        if (getTodoId == null)
+        {
+            return StatusCode(500, "Something went wrong, try again later!");
+        }
+
+        _db.Categories.Remove(getTodoId);
+        _db.SaveChanges();
+
+        return Ok();
 
     }
 

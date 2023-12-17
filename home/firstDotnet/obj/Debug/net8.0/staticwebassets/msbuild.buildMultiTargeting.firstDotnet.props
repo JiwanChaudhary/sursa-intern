@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\firstDotnet.props" />
+</Project>

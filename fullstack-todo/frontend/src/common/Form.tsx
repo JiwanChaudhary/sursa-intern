@@ -10,7 +10,7 @@ import {
   QueryClientProvider,
   useMutation,
 } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const Form = () => {
   const navigate = useNavigate();
@@ -40,13 +40,17 @@ const Form = () => {
   const handleCreateTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const createNewTodo = {
-      title: newTodo.title,
-      description: newTodo.description,
-      todoStatus: todoStatus,
-      categoryId: categoryStatus,
-    };
-    mutation.mutate(createNewTodo);
+    if (categoryStatus !== undefined) {
+      const createNewTodo = {
+        title: newTodo.title,
+        description: newTodo.description,
+        todoStatus: todoStatus,
+        categoryId: categoryStatus,
+      };
+      mutation.mutate(createNewTodo);
+    } else {
+      toast.error("Please create category to add task!");
+    }
   };
 
   return (
@@ -98,7 +102,11 @@ const Form = () => {
       >
         {statusState.map((statusState) => (
           <option value={statusState.value} key={statusState.value}>
-            {statusState.label}
+            {statusState.label === "Pending" ? (
+              <>Select Todo Status</>
+            ) : (
+              <>{statusState.label}</>
+            )}
           </option>
         ))}
       </Input>
@@ -109,6 +117,7 @@ const Form = () => {
       <Button type="submit" style={{ marginTop: "10px" }}>
         Create Todo
       </Button>
+      <Toaster />
     </form>
   );
 };

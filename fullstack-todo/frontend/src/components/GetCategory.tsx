@@ -27,6 +27,7 @@ const GetCategory = () => {
       mt="md"
       onChange={(e) => setCategoryStatus(Number(e.target.value))}
     >
+      <option value="">Choose Category</option>
       {categories.map((category) => (
         <option value={category.id} key={category.id}>
           {category.categoryName}
