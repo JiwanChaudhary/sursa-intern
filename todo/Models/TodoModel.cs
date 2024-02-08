@@ -17,6 +17,8 @@ public class TodoModel
 
     public Status TodoStatus { get; set; }
     public bool isCompleted { get; set; }
+
+    public bool IsActive { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
 

@@ -1,0 +1,8 @@
+C:\sursa\new\obj\Debug\net8.0\new.GeneratedMSBuildEditorConfig.editorconfig
+C:\sursa\new\obj\Debug\net8.0\new.AssemblyInfoInputs.cache
+C:\sursa\new\obj\Debug\net8.0\new.AssemblyInfo.cs
+C:\sursa\new\obj\Debug\net8.0\new.csproj.CoreCompileInputs.cache
+C:\sursa\new\obj\Debug\net8.0\new.MvcApplicationPartsAssemblyInfo.cache
+C:\sursa\new\obj\Debug\net8.0\new.RazorAssemblyInfo.cache
+C:\sursa\new\obj\Debug\net8.0\new.RazorAssemblyInfo.cs
+C:\sursa\new\obj\Debug\net8.0\new.sourcelink.json
